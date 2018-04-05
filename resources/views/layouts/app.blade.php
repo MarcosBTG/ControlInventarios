@@ -12,6 +12,7 @@
 
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </head>
     <body>
         <div id="app">
@@ -34,6 +35,10 @@
                     </div>
 
                     <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="{{ url('/home')}}">Inicio</a></li>
+                            <li><a href="{{ url('/products/index')}}">Productos</a></li>
+                        </ul>
                         <!-- Left Side Of Navbar -->
                         <ul class="nav navbar-nav">
                             &nbsp;
@@ -63,6 +68,16 @@
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
+                                    <li> 
+                                        <a href="{{ url('/products/index')}}">
+                                            Productos
+                                        </a>
+                                    </li>
+                                    <li> 
+                                        <a href="#">
+                                            Almacen
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             @endif
@@ -73,9 +88,7 @@
 
             @yield('content')
         </div>
-
-        <!-- Scripts -->
-        <script src="{{ asset('js/jquery-3.3.1.min.js')}}"></script>
-        <script src="{{ asset('js/app.js') }}"></script>}}
+        @yield('javascript')
+        <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>
