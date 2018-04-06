@@ -18,7 +18,7 @@ class ProductsController extends Controller {
 //        $search = Input::get('search');
 //        $btn_filter = 0;
 //  , 'btn_filter' => $btn_filter
-        $query = ProductsModel::select('sku', 'name', 'description')->where('status', '!=', '0')->orderBy('id','desc');
+        $query = ProductsModel::select('id', 'sku', 'name', 'description')->where('status', '!=', '0')->orderBy('id','desc');
         
         $products = $query->orderBy('id')->paginate(3);
     
@@ -52,9 +52,9 @@ class ProductsController extends Controller {
         $producto->save();
         
         if ($producto->save()) {
-            return redirect()->action('ProductsController@index')->with('exito', "Registro realizado con éxito.")->with('type', 'alert-success');
+            return redirect()->action('ProductsController@index')->with('exito', "Registro realizado con éxito.");
         }else {
-            return redirect()->action('ProductsController@index')->with('error', "No se pudo realizar el registro.")->with('type', 'alert-danger');
+            return redirect()->action('ProductsController@index')->with('error', "No se pudo realizar el registro.");
         }
 
     }
@@ -126,7 +126,7 @@ class ProductsController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show() {
         
     }
 
@@ -138,8 +138,9 @@ class ProductsController extends Controller {
      */
     public function edit($id) {
         //la informacion se manda por url por ese motivo se utiliza get
-        $producto = Productos::findOrFail($id);
-        return view('productos.editar', ['producto' => $producto]);
+        $producto = ProductsModel::findOrFail($id);
+        //die(json_encode($producto));
+        return view('products.update', ['product' => $producto]);
     }
 
     /**
@@ -150,14 +151,14 @@ class ProductsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        $producto = Productos::findOrFail($id); //realizamos la busqueda de los registros
+        $producto = ProductsModel::findOrFail($id); //realizamos la busqueda de los registros
         //recibimos los valores nuevos 
-        $producto->nombre = $request->nombre;
-        $producto->categoria = $request->categoria;
-        $producto->cantidad = $request->cantidad;
+        $producto->sku = $request->sku;
+        $producto->name = $request->name;
+        $producto->description = $request->description;
         //guardamos los cambios
         $producto->save();
-        return redirect()->action('ProductosController@index'); //al terminar de guardar nos envia al index
+        return redirect()->action('ProductsController@index')->with('actualizado', "Registro actualizado con éxito.");
     }
 
     /**

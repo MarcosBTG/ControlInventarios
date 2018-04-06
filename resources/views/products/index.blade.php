@@ -7,11 +7,23 @@
 @if (Session::has('message'))
 <div class="alert alert-success"></div>
 @endif
+
 @if (Session::has('exito'))
-<div class="alert alert-success">Registro realizado con éxito.</div>
+	<div class="alert alert-success">
+		<strong>{{Session::get('exito')}}</strong>
+	</div>
+@endif
+@if (Session::has('actualizado'))
+	<div class="alert alert-success">
+		<strong>Whoops!</strong> Al parecer algo cambió.<br><br>
+                <strong>{{Session::get('actualizado')}}</strong>
+	</div>
 @endif
 @if (Session::has('error'))
-<div class="alert alert-success"></div>
+	<div class="alert alert-danger">
+		<strong>Whoops!</strong> Al parecer algo está mal.<br><br>
+		<strong>{{Session::get('error')}}</strong>
+	</div>
 @endif
 
 <div class="container">
@@ -57,9 +69,10 @@
                                                     <td>{{$product->name}}</td>
                                                     <td>{{$product->description}}</td>
                                                     <td>
-                                                        <a class="icon" href="#"><i class="material-icons">mode_edit</i></a>
+                                                        <a class="icon" href="/products/{{$product->id}}/edit"><i class="material-icons">mode_edit</i></a>
                                                         <a class="icon" href="#"><i class="material-icons">clear</i></a>
                                                         <a class="icon" href="#"><i class="material-icons">local_shipping</i></a>
+                                                        <a class="icon" href="#"><i class="material-icons">remove_red_eye</i></a>
                                                     </td>
                                                 </tr>
                                                 @endforeach

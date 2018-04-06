@@ -22,7 +22,7 @@ Route::get('/products/index', 'ProductsController@index')->name('products.catalo
 Route::get('/products/create', 'ProductsController@create')->name('products.create');
 Route::post('/products/store','ProductsController@store');
 
-//Route::get('/productos/{id}/editar','ProductosController@edit');//esta ruta nos muestra el formulario para poder editar el registro, como observacion la variable que se va a pasar por la url debe de estar en medio o en otra parte de nuestra ruta para asi evitar ataques sql
-//Route::patch('/productos/{id}/actualizar','ProductosController@update');//esta ruta nos lleva hacia el metodo update que guiado por el id realizara la actualizacion ala base
+Route::get('/products/{id}/edit','ProductsController@edit')->name('products.edit');
+Route::patch('/products/{id}/update','ProductsController@update');
 //Route::delete('/productos/{id}/eliminar','ProductosController@destroy');
 
