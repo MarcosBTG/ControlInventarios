@@ -24,6 +24,6 @@ class ProductsModel extends Model
      * @var array
      */
     protected $hidden = [
-        'container_id',
+        'status','container_id',
     ];
 }

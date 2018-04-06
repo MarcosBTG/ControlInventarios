@@ -58,7 +58,9 @@
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control" name="password" required>
-
+                                <small id="passwordHelpBlock" class="form-text text-muted">
+                                    La contraseña debe contener entre 6 - 20 caracteres, puede contener letras y números.
+                                </small>
                                 @if ($errors->has('password'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('password') }}</strong>

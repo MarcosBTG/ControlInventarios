@@ -5,10 +5,15 @@
 @section('content')
 
 @if (Session::has('message'))
-<div class="alert alert-success">
-    <p>El álbum ha sido creado</p>
-</div>
+<div class="alert alert-success"></div>
 @endif
+@if (Session::has('exito'))
+<div class="alert alert-success">Registro realizado con éxito.</div>
+@endif
+@if (Session::has('error'))
+<div class="alert alert-success"></div>
+@endif
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -52,8 +57,9 @@
                                                     <td>{{$product->name}}</td>
                                                     <td>{{$product->description}}</td>
                                                     <td>
-                                                        <a class="btn tooltipped" href="#" data-position="right" data-delay="50" data-tooltip="Editar"><i class="material-icons">mode_edit</i></a>
-                                                        <a class="btn tooltipped" href="#" data-position="right" data-delay="50" data-tooltip="Deceas eliminarme"><i class="material-icons">clear</i></a>
+                                                        <a class="icon" href="#"><i class="material-icons">mode_edit</i></a>
+                                                        <a class="icon" href="#"><i class="material-icons">clear</i></a>
+                                                        <a class="icon" href="#"><i class="material-icons">local_shipping</i></a>
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -64,15 +70,8 @@
                                             </tbody>
                                             <nav>
                                                 <ul class="pagination justify-content-center">
-                                                    <li class="page-item disabled">
-                                                        <a class="page-link" href="#" tabindex="-1">Previous</a>
-                                                    </li>
-                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#">Next</a>
-                                                    </li>
+                                                    <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Previous</a>{{ $paginate}}</li>
+                                                    <a class="page-link" href="#" tabindex="-1">Next</a>
                                                 </ul>
                                             </nav>
                                         </table>
