@@ -38,8 +38,8 @@
                     <div class="collapse navbar-collapse" id="app-navbar-collapse">
                             @if (!Auth::guest())
                         <ul class="nav navbar-nav">
-                            <li><a href="{{ url('/home')}}">Inicio</a></li>
                             <li><a href="{{ url('/products/index')}}">Productos</a></li>
+                            <li><a href="{{ url('/containers/index')}}">Contenedores</a></li>
                         </ul>
                             @endif
                         <!-- Left Side Of Navbar -->

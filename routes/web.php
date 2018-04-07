@@ -25,3 +25,4 @@ Route::get('/products/{id}/edit','ProductsController@edit')->name('products.edit
 Route::patch('/products/{id}/update','ProductsController@update');
 //Route::delete('/productos/{id}/eliminar','ProductosController@destroy');
 
+Route::get('/containers/index', 'ContainersController@index')->name('containers.catalogue');

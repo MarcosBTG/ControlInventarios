@@ -30,7 +30,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Cat&aacute;logo de productos.</div>
+                <div class="panel-heading">Cat&aacute;logo de contenedores.</div>
 
                 <div class="panel-body">
                     @if (session('status'))
@@ -47,7 +47,7 @@
                         </div><br>
                         <div class="row">
                             <div class="col col-md-6 col-md-offset-9">
-                                <a href="/products/create" class="btn btn-primary small">Agregar Producto</a>
+                                <a href="/products/create" class="btn btn-primary small">Agregar Contenedor</a>
                             </div>
                             <div class="col col-md-6 col-md-offset-4">
                                 {{ $products->links()}}
