@@ -13,6 +13,17 @@
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <style> 
+            .texto{
+                color: #FFF;
+                padding: 0px;
+            }
+            .texto:hover{
+                transition: .3s;
+                font-size: 15px; 
+                color: #FFF;
+            }
+        </style>
     </head>
     <body>
         <div id="app">
@@ -38,8 +49,13 @@
                     <div class="collapse navbar-collapse" id="app-navbar-collapse">
                             @if (!Auth::guest())
                         <ul class="nav navbar-nav">
-                            <li><a href="{{ url('/products/index')}}">Productos</a></li>
-                            <li><a href="{{ url('/containers/index')}}">Contenedores</a></li>
+                            @if(route('products.catalogue'))
+                                <li class="active"><a href="{{ url('/products/index')}}">Productos</a></li>
+                                <li><a href="{{ url('/containers/index')}}"><h5 class="texto">Contenedores</h5></a></li>
+                            @else
+                                <li class="active"><a href="{{ url('/containers/index')}}"><h5>Contenedores</h5></a></li>
+                                <li><a href="{{ url('/products/index')}}"><h5 class="texto">Productos</h5></a></li>
+                            @endif
                         </ul>
                             @endif
                         <!-- Left Side Of Navbar -->
@@ -60,6 +76,16 @@
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
+                                    <li> 
+                                        <a href="{{ url('/products/index')}}">
+                                            Productos
+                                        </a>
+                                    </li>
+                                    <li> 
+                                        <a href="{{ route('containers.catalogue')}}">
+                                            Contenedores
+                                        </a>
+                                    </li>
                                     <li>
                                         <a href="{{ route('logout') }}"
                                            onclick="event.preventDefault();
@@ -70,16 +96,6 @@
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
-                                    </li>
-                                    <li> 
-                                        <a href="{{ url('/products/index')}}">
-                                            Productos
-                                        </a>
-                                    </li>
-                                    <li> 
-                                        <a href="#">
-                                            Almacen
-                                        </a>
                                     </li>
                                 </ul>
                             </li>

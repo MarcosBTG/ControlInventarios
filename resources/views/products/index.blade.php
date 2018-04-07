@@ -3,11 +3,6 @@
 @section('title', 'S.C.Inventario')
 
 @section('content')
-
-@if (Session::has('message'))
-<div class="alert alert-success"></div>
-@endif
-
 @if (Session::has('exito'))
 <div class="alert alert-success">
     <strong>{{Session::get('exito')}}</strong>
@@ -77,9 +72,8 @@
                                                     <td>{{$product->container_id}}</td>
                                                     <td>
                                                         <a class="icon" href="/products/{{$product->id}}/edit"><i class="material-icons">mode_edit</i></a>
-                                                        <a class="icon" href="#"><i class="material-icons">clear</i></a>
-                                                        <a class="icon" href="#"><i class="material-icons">local_shipping</i></a>
-                                                        <a class="icon" href="#"><i class="material-icons">remove_red_eye</i></a>
+                                                        <a class="icon" href="/products/{{$product->id}}/delete" onclick = 'return confirm (" ¿Seguro que quieres eliminar? ")'><i class="material-icons">clear</i></a>
+                                                        <a class="icon" href="/products/{{$product->id}}/submit"><i class="material-icons">local_shipping</i></a>
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -91,7 +85,12 @@
                                         </table>
                                     </div>
                                     @endif
+                                    
                                 </div>
+                                <form method="post" id="delete">
+                                    {{csrf_field()}}
+                                    {{method_field('DELETE')}}
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -103,4 +102,5 @@
     @section('javascript')
     <script src="http://code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>
     <script src="{{ asset('js/products/filter_catalogue.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('/js/products/products.js')}}" type="text/javascript"></script>
     @endsection

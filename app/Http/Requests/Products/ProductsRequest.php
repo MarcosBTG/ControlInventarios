@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Products;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,7 +24,7 @@ class ProductsRequest extends FormRequest {
         return[
             'sku' => 'bail|required|unique:products',
             'name' => 'bail|required|max:100',
-            'description' => 'required|max:250',
+            'description' => 'max:250',
         ];
     }
 
@@ -34,8 +34,7 @@ class ProductsRequest extends FormRequest {
             'sku.unique' => 'El SKU ingresado ya existe!',
             'name.required' => 'El campo es obligatorio',
             'name.max' => 'El campo nombre solo puede contener hasta 100 caracteres',
-            
-            'description.required' => 'El campo es obligatorio',
+
             'description.max' => 'El campo nombre solo puede contener hasta 250 caracteres',
         ];
     }

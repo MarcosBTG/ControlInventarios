@@ -4,19 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\ProductsRequest;
-use Illuminate\Support\Facades\Input;
+use App\Http\Requests\Products\ProductsRequest;
+use App\Http\Requests\Products\EditProductRequest;
 use App\DescriptionContainerModel;
 use App\ProductsModel;
 use App\ContainerModel;
-use App\User;
 
 class ProductsController extends Controller {
 
     public function index() {
         //Auth::check()
         if (!Auth::guest()) {
-            $query = ProductsModel::select('id', 'sku', 'name', 'description', 'container_id')->where('status', '!=', '0');
+            $query = ProductsModel::select('id', 'sku', 'name', 'description', 'container_id')->where('status', '=', '1');
             $products = $query->orderBy('id', 'desc')->paginate(5);
 
             return view('products/index', ['products' => $products]);
@@ -131,7 +130,6 @@ class ProductsController extends Controller {
 
     public function getTypeContainer() {
         if (!Auth::guest()) {
-
             $type = mt_rand(1, 2);
             return $type;
         } else {
@@ -155,7 +153,7 @@ class ProductsController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit(Request $id) {
         if (!Auth::guest()) {
             $producto = ProductsModel::findOrFail($id);
             //die(json_encode($producto));
@@ -172,7 +170,7 @@ class ProductsController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
+    public function update(EditProductRequest $request, $id) {
         if (!Auth::guest()) {
             $producto = ProductsModel::findOrFail($id);
 
@@ -181,8 +179,23 @@ class ProductsController extends Controller {
             $producto->description = $request->description;
 
             $producto->save();
-            
+
             return redirect()->action('ProductsController@index')->with('actualizado', "Registro actualizado con éxito.");
+        } else {
+            return redirect('/')->with('error', 'No tienes permiso para realizar esta acción. Intenta iniciando sesi&oacute;n');
+        }
+    }
+
+    public function updateState($id) {
+        if (!Auth::guest()) {
+            $producto = ProductsModel::findOrFail($id);
+            $producto->status = 2;
+            $producto->save();
+
+            $container_id = ProductsModel::select('container_id')->where('id', '=', $id)->first();
+            $this->UpdateContainer($container_id->container_id);
+
+            return redirect()->action('ProductsController@index')->with('actualizado', "Se ha realizado el envio del producto con éxito.");
         } else {
             return redirect('/')->with('error', 'No tienes permiso para realizar esta acción. Intenta iniciando sesi&oacute;n');
         }
@@ -194,12 +207,35 @@ class ProductsController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
+    public function delete($id) {
         if (!Auth::guest()) {
-            Productos::findOrFail($id)->delete();
-            return redirect()->action('ProductosController@index');
+            $product = ProductsModel::findOrFail($id);
+            $product->status = 0;
+            $product->save();
+
+            $container_id = ProductsModel::select('container_id')->where('id', '=', $id)->first();
+            $this->UpdateContainer($container_id->container_id);
+            
+            return redirect()->action('ProductsController@index')->with("exito", "La eliminaci&oacute;n del producto se realiz&oacute; exitosamente.");
         } else {
             return redirect('/')->with('error', 'No tienes permiso para realizar esta acción. Intenta iniciando sesi&oacute;n');
         }
     }
+
+    public function UpdateContainer($id) {
+        if (!Auth::guest()) {
+            $container = ContainerModel::where('id', '=', $id)->first();
+
+            if ($container->capacity != 1000 && $container->status == 1) {
+                $container->capacity = $container->capacity - 1;
+            } else {
+                $container->capacity = $container->capacity - 1;
+                $container->status = 1;
+            }
+            $container->save();
+        } else {
+            return redirect('/')->with('error', 'No tienes permiso para realizar esta acción. Intenta iniciando sesi&oacute;n');
+        }
+    }
+
 }
