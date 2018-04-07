@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('sku');
             $table->string('name');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->integer('status');
             $table->integer('container_id')->unsigned();
             

@@ -7,8 +7,8 @@
 
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
-
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <!--<title>{{ config('app.name', 'Laravel') }}</title>-->
+        <title>S.C.Inventario</title>
 
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -16,13 +16,13 @@
     </head>
     <body>
         <div id="app">
-            <nav class="navbar navbar-default navbar-static-top">
+            <nav class="navbar navbar-default navbar-static-top" style="background-color: #339cff;">
                 <div class="container">
                     <div class="navbar-header">
 
                         <!-- Collapsed Hamburger -->
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                            <span class="sr-only">Toggle Navigation</span>
+                                                <span class="sr-only">Toggle Navigation</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
@@ -30,15 +30,18 @@
 
                         <!-- Branding Image -->
                         <a class="navbar-brand" href="{{ url('/') }}">
-                            {{ config('app.name', 'Laravel') }}
+<!--                            <img src="{{ asset('img/m.jpg') }}" width="30" height="30" class="d-inline-block align-top" alt="">-->
+                            <span class="mb-0 h3">S.C.Inventario</span>
                         </a>
                     </div>
 
                     <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                            @if (!Auth::guest())
                         <ul class="nav navbar-nav">
                             <li><a href="{{ url('/home')}}">Inicio</a></li>
                             <li><a href="{{ url('/products/index')}}">Productos</a></li>
                         </ul>
+                            @endif
                         <!-- Left Side Of Navbar -->
                         <ul class="nav navbar-nav">
                             &nbsp;

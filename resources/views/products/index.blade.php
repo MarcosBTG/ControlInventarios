@@ -9,21 +9,21 @@
 @endif
 
 @if (Session::has('exito'))
-	<div class="alert alert-success">
-		<strong>{{Session::get('exito')}}</strong>
-	</div>
+<div class="alert alert-success">
+    <strong>{{Session::get('exito')}}</strong>
+</div>
 @endif
 @if (Session::has('actualizado'))
-	<div class="alert alert-success">
-		<strong>Whoops!</strong> Al parecer algo cambió.<br><br>
-                <strong>{{Session::get('actualizado')}}</strong>
-	</div>
+<div class="alert alert-success">
+    <strong>Whoops!</strong> Al parecer algo cambió.<br><br>
+    <strong>{{Session::get('actualizado')}}</strong>
+</div>
 @endif
 @if (Session::has('error'))
-	<div class="alert alert-danger">
-		<strong>Whoops!</strong> Al parecer algo está mal.<br><br>
-		<strong>{{Session::get('error')}}</strong>
-	</div>
+<div class="alert alert-danger">
+    <strong>Whoops!</strong> Al parecer algo está mal.<br><br>
+    <strong>{{Session::get('error')}}</strong>
+</div>
 @endif
 
 <div class="container">
@@ -45,8 +45,13 @@
                                 <input id="filtrar"  type="text"  class="form-control"  placeholder="Ingresa el SKU o el nombre del producto" >
                             </div>
                         </div><br>
-
-                        <div class="row"><a href="/products/create" class="btn btn-primary small">Agregar Producto</a></div>
+                        <div class="row">
+                            <div class="col col-md-6 col-md-offset-9">
+                                <a href="/products/create" class="btn btn-primary small">Agregar Producto</a>
+                            </div>
+                            <div class="col col-md-6 col-md-offset-4">
+                                {{ $products->links()}}
+                            </div>
                         <div class="row"> 
                             <div class="col-12 col-md-12">
                                 <div class="card card-table">
@@ -59,6 +64,7 @@
                                                     <th>SKU</th>
                                                     <th>Nombre</th>
                                                     <th>Descripci&oacute;n</th>
+                                                    <th>Contenedor</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
@@ -68,6 +74,7 @@
                                                     <td>{{$product->sku}}</td>
                                                     <td>{{$product->name}}</td>
                                                     <td>{{$product->description}}</td>
+                                                    <td>{{$product->container_id}}</td>
                                                     <td>
                                                         <a class="icon" href="/products/{{$product->id}}/edit"><i class="material-icons">mode_edit</i></a>
                                                         <a class="icon" href="#"><i class="material-icons">clear</i></a>
@@ -76,21 +83,14 @@
                                                     </td>
                                                 </tr>
                                                 @endforeach
-                                                @else
+                                            </tbody>
+                                            @else
                                             <div class="alert alert-danger">
                                                 <p>Al parecer no se ha registrado productos. Registra uno.</p>
                                             </div>
-                                            </tbody>
-                                            <nav>
-                                                <ul class="pagination justify-content-center">
-                                                    <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Previous</a>{{ $paginate}}</li>
-                                                    <a class="page-link" href="#" tabindex="-1">Next</a>
-                                                </ul>
-                                            </nav>
                                         </table>
                                     </div>
                                     @endif
-
                                 </div>
                             </div>
                         </div>

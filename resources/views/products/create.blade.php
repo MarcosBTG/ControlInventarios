@@ -50,8 +50,10 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="col col-md-6 col-md-offset-3">
+                            <div class="col col-md-6 col-md-offset-5">
                                 <input type="submit" class="btn btn-success right" data-position="right" id="btn_registrar" value="Registrar">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="{{ url('/products/index')}}" class="btn btn-primary">Regresar</a>
                             </div>
                         </div>
                     </form>
