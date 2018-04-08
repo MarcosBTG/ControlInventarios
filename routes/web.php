@@ -28,4 +28,4 @@ Route::get('/products/{id}/delete', 'ProductsController@delete');
 //contenedor
 Route::get('/containers/index', 'ContainersController@index')->name('containers.catalogue');
 Route::get('/containers/{id}/edit', 'ContainersController@edit')->name('containers.edit');
-Route::patch('/containers/{id}/update', 'ProductsController@update')->name('containers.update');
+Route::patch('/containers/{id}/update', 'ContainersController@update')->name('containers.update');

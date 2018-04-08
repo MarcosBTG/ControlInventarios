@@ -9,6 +9,7 @@ use App\Http\Requests\Products\EditProductRequest;
 use App\DescriptionContainerModel;
 use App\ProductsModel;
 use App\ContainerModel;
+use App\UbicationModel;
 
 class ProductsController extends Controller {
 
@@ -31,9 +32,29 @@ class ProductsController extends Controller {
      */
     public function create() {
         if (!Auth::guest()) {
+            $this->fill_location();
+            $this->checkContainer();
             return view('products.create');
         } else {
             return redirect('/')->with('error', 'No tienes permiso para realizar esta acción. Intenta iniciando sesi&oacute;n');
+        }
+    }
+
+    public function fill_location() {
+        $check = UbicationModel::all();
+        if (count($check)<=0) {
+            for($i=1; $i<=3; $i++){
+                $ubicacion = new UbicationModel();
+                $ubicacion->user_id = Auth::user()->id;
+                $ubicacion->save();
+            }
+        }
+    }
+    
+    public function checkContainer() {
+        $check = ContainerModel::all();
+        if (count($check)<=0) {
+            $this->createContainer();
         }
     }
 
@@ -100,14 +121,9 @@ class ProductsController extends Controller {
         if (!Auth::guest()) {
             $containers = ContainerModel::select('id')->where('status', '=', 1)->orderBy('capacity', 'asc')->get();
             if (count($containers) <= 0) {
-                $contenedor = new ContainerModel();
-                $contenedor->capacity = 0;
-                $contenedor->type = $this->getTypeContainer();
-                $contenedor->status = 1;
-                $contenedor->ubication_id = 1;
-                $contenedor->save();
+                $this->createContainer();
 
-                $new_container = ContainerModel::where('capacity', '=', 0)->first();
+                $new_container = ContainerModel::where('capacity', '=', 0)->first(); //selecciona el nuevo contenedor y lo agrega a la descripcion
                 $description = new DescriptionContainerModel();
                 $description->origin = 1;
                 $description->destinity = 2;
@@ -126,6 +142,15 @@ class ProductsController extends Controller {
         } else {
             return redirect('/')->with('error', 'No tienes permiso para realizar esta acción. Intenta iniciando sesi&oacute;n');
         }
+    }
+
+    public function createContainer() {
+        $contenedor = new ContainerModel();
+        $contenedor->capacity = 0;
+        $contenedor->type = $this->getTypeContainer();
+        $contenedor->status = 1;
+        $contenedor->ubication_id = 1;
+        $contenedor->save();
     }
 
     public function getTypeContainer() {
@@ -215,7 +240,7 @@ class ProductsController extends Controller {
 
             $container_id = ProductsModel::select('container_id')->where('id', '=', $id)->first();
             $this->UpdateContainer($container_id->container_id);
-            
+
             return redirect()->action('ProductsController@index')->with("exito", "La eliminaci&oacute;n del producto se realiz&oacute; exitosamente.");
         } else {
             return redirect('/')->with('error', 'No tienes permiso para realizar esta acción. Intenta iniciando sesi&oacute;n');

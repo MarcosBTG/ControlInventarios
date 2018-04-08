@@ -15,8 +15,8 @@ class CreateDescriptionContainerTable extends Migration
     {
         Schema::create('description_container', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('origin');
-            $table->string('destinity');
+            $table->string('origin', 2);
+            $table->string('destinity', 2);
             $table->integer('status');
             
             $table->integer('container_id')->unsigned();

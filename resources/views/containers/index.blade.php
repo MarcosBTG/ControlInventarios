@@ -1,6 +1,18 @@
 
 @extends('layouts.app')
 @section('title', 'S.C.Inventario')
+@section('css')
+<style>
+    .rojo{
+        color: #ff0000;
+    }
+    .amarillo{
+        color: #ff9900;
+    }
+    .verde{
+        color: #2ca02c;
+    }
+</style>
 
 @section('content')
 
@@ -42,43 +54,56 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="input-group"><span class="input-group-addon"> Buscar </span>
-                                <input id="filtrar"  type="text"  class="form-control"  placeholder="Ingresa el SKU o el nombre del producto" >
+                                <input id="filtrar"  type="text"  class="form-control"  placeholder="Ingresa el identificador del contenedor" >
                             </div>
-                        </div><br>
+                        </div>
                         <div class="row">
                             <div class="col col-md-6 col-md-offset-9">
-                                <a href="/products/create" class="btn btn-primary small">Agregar Contenedor</a>
+                                {{ $containers->links()}}
                             </div>
-                            <div class="col col-md-6 col-md-offset-4">
-                                {{ $products->links()}}
-                            </div>
+                        </div>
                         <div class="row"> 
                             <div class="col-12 col-md-12">
                                 <div class="card card-table">
 
-                                    @if(sizeof($products) > 0)
+                                    @if(sizeof($containers) > 0)
                                     <div class="card-body table-responsive">
                                         <table class="table table-striped table-borderless table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th>SKU</th>
-                                                    <th>Nombre</th>
-                                                    <th>Descripci&oacute;n</th>
-                                                    <th>Contenedor</th>
+                                                    <th>Identificador</th>
+                                                    <th>Tipo</th>
+                                                    <th>Ubicaci&oacute;n</th>
+                                                    <th>Capacidad</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="buscar">
-                                                @foreach ($products as $product)
+                                                @foreach ($containers as $container)
                                                 <tr>
-                                                    <td>{{$product->sku}}</td>
-                                                    <td>{{$product->name}}</td>
-                                                    <td>{{$product->description}}</td>
-                                                    <td>{{$product->container_id}}</td>
+                                                    <td>{{$container->id}}</td>
+                                                    @if($container->type == 1)
+                                                        <td>Caja</td>
+                                                    @else
+                                                        <td>Tarima</td>
+                                                    @endif
+                                                    @if($container->ubication_id == 1)
+                                                        <td>Recibo</td>
+                                                    @elseif($container->ubication_id == 2)
+                                                        <td>Almacenaje</td>
+                                                    @else
+                                                        <td>Surtido</td>
+                                                    @endif
+                                                    
+                                                    @if($container->capacity == 1000)
+                                                        <td class="rojo">{{$container->capacity}} productos</td>
+                                                    @elseif($container->capacity >= 500 && $container->capacity <= 999)
+                                                        <td class="amarillo">{{$container->capacity}} productos</td>
+                                                    @else
+                                                    <td class="verde">{{$container->capacity}} productos</td>
+                                                    @endif
                                                     <td>
-                                                        <a class="icon" href="/products/{{$product->id}}/edit"><i class="material-icons">mode_edit</i></a>
-                                                        <a class="icon" href="#"><i class="material-icons">clear</i></a>
-                                                        <a class="icon" href="#"><i class="material-icons">local_shipping</i></a>
+                                                        <a class="icon" href="/containers/{{$container->id}}/edit"><i class="material-icons">mode_edit</i></a>
                                                         <a class="icon" href="#"><i class="material-icons">remove_red_eye</i></a>
                                                     </td>
                                                 </tr>
@@ -86,7 +111,7 @@
                                             </tbody>
                                             @else
                                             <div class="alert alert-danger">
-                                                <p>Al parecer no se ha registrado productos. Registra uno.</p>
+                                                <p>Al parecer no se han registrado contenedores. Los contenedores se crean al agregar productos.</p>
                                             </div>
                                         </table>
                                     </div>
