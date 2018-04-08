@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\Containers\ContainersRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\DescriptionContainerModel;
 use App\ContainerModel;
 use App\UbicationModel;
@@ -48,8 +49,18 @@ class ContainersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show() {
-        
+    public function show($id) {
+        if (!Auth::guest()) {
+            $query = DescriptionContainerModel::select('container.id as container_id','container.type as type','container.capacity as capacity','container.ubication_id as ubication_id','description_container.origin as origin','description_container.destinity as destinity', DB::raw('concat(users.name, " ", users.surnames) as name'))
+                    ->join('container', 'description_container.container_id', '=', 'container.id')
+                    ->join('users', 'description_container.user_id', '=', 'users.id')
+                    ->where('container.id','=',$id);
+            
+            $containers = $query->paginate(15);
+            return view('containers.show', ['containers' => $containers]);
+        } else {
+            return redirect('/')->with('error', 'No tienes permiso para realizar esta acción. Intenta iniciando sesi&oacute;n');
+        }
     }
 
     /**

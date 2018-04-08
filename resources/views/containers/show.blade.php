@@ -1,34 +1,10 @@
 
 @extends('layouts.app')
-@section('title', 'S.C.Inventario')
-@section('css')
-<style>
-    .rojo{
-        color: #ff0000;
-    }
-    .amarillo{
-        color: #ff9900;
-    }
-    .verde{
-        color: #2ca02c;
-    }
-</style>
 
 @section('content')
-
-@if (Session::has('message'))
-<div class="alert alert-success"></div>
-@endif
-
 @if (Session::has('exito'))
 <div class="alert alert-success">
     <strong>{{Session::get('exito')}}</strong>
-</div>
-@endif
-@if (Session::has('actualizado'))
-<div class="alert alert-success">
-    <strong>Whoops!</strong> Al parecer algo cambió.<br><br>
-    <strong>{{Session::get('actualizado')}}</strong>
 </div>
 @endif
 @if (Session::has('error'))
@@ -38,7 +14,7 @@
 </div>
 @endif
 
-<div class="container">
+<div class="container"> 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
@@ -75,13 +51,15 @@
                                                     <th>Tipo</th>
                                                     <th>Ubicaci&oacute;n</th>
                                                     <th>Capacidad</th>
-                                                    <th>Acciones</th>
+                                                    <th>Ubicaci&oacute;n origen</th>
+                                                    <th>Ubicaci&oacute;n destino</th>
+                                                    <th>Modificado por:</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="buscar">
                                                 @foreach ($containers as $container)
                                                 <tr>
-                                                    <td>{{$container->id}}</td>
+                                                    <td>{{$container->container_id}}</td>
                                                     @if($container->type == 1)
                                                         <td>Caja</td>
                                                     @else
@@ -89,23 +67,37 @@
                                                     @endif
                                                     @if($container->ubication_id == 1)
                                                         <td>Recibo</td>
-                                                    @elseif($container->ubication_id == 2)
-                                                        <td>Almacenaje</td>
+                                                        @elseif($container->ubication_id == 2)
+                                                            <td>Almacenaje</td>
+                                                    @else
+                                                        <td>Surtido</td>
+                                                    @endif
+
+                                                    @if($container->capacity == 1000)
+                                                        <td class="rojo">{{$container->capacity}} productos</td>
+                                                        @elseif($container->capacity >= 500 && $container->capacity <= 999)
+                                                            <td class="amarillo">{{$container->capacity}} productos</td>
+                                                    @else
+                                                        <td class="verde">{{$container->capacity}} productos</td>
+                                                    @endif
+                                                    
+                                                    @if($container->origin == 1)
+                                                        <td>Recibo</td>
+                                                        @elseif($container->origin == 2)
+                                                            <td>Almacenaje</td>
                                                     @else
                                                         <td>Surtido</td>
                                                     @endif
                                                     
-                                                    @if($container->capacity == 1000)
-                                                        <td class="rojo">{{$container->capacity}} productos</td>
-                                                    @elseif($container->capacity >= 500 && $container->capacity <= 999)
-                                                        <td class="amarillo">{{$container->capacity}} productos</td>
+                                                    @if($container->destinity == 1)
+                                                        <td>Recibo</td>
+                                                        @elseif($container->destinity == 2)
+                                                            <td>Almacenaje</td>
                                                     @else
-                                                    <td class="verde">{{$container->capacity}} productos</td>
+                                                        <td>Surtido</td>
                                                     @endif
-                                                    <td>
-                                                        <a class="icon" href="/containers/{{$container->id}}/edit"><i class="material-icons">mode_edit</i></a>
-                                                        <a class="icon" href="/containers/{{$container->id}}/show"><i class="material-icons">remove_red_eye</i></a>
-                                                    </td>
+                                                    
+                                                    <td>{{$container->name}}</td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
@@ -124,8 +116,10 @@
             </div>
         </div>
     </div>
-    @endsection
-    @section('javascript')
-    <script src="http://code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>
-    <script src="{{ asset('js/products/filter_catalogue.js') }}" type="text/javascript"></script>
-    @endsection
+</div>
+@endsection
+@section('javascript')
+<script src="http://code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>
+<script src="{{ asset('js/products/filter_catalogue.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/js/products/products.js')}}" type="text/javascript"></script>
+@endsection

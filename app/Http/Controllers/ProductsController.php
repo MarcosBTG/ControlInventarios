@@ -178,10 +178,10 @@ class ProductsController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $id) {
+    public function edit($id) {
         if (!Auth::guest()) {
             $producto = ProductsModel::findOrFail($id);
-            //die(json_encode($producto));
+            
             return view('products.update', ['product' => $producto]);
         } else {
             return redirect('/')->with('error', 'No tienes permiso para realizar esta acción. Intenta iniciando sesi&oacute;n');
