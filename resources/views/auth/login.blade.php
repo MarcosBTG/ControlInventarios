@@ -45,9 +45,9 @@
                                     Iniciar Sesi&oacute;n
                                 </button>
 
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
+<!--                                <a class="btn btn-link" href="{{ route('password.request') }}">
                                     Olvide mi contraseña
-                                </a>
+                                </a>-->
                             </div>
                         </div>
                     </form>

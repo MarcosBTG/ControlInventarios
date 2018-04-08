@@ -1,6 +1,17 @@
 
 @extends('layouts.app')
-
+@section('css')
+<style>
+    .rojo{
+        color: #ff0000;
+    }
+    .amarillo{
+        color: #ff9900;
+    }
+    .verde{
+        color: #2ca02c;
+    }
+</style>
 @section('content')
 @if (Session::has('exito'))
 <div class="alert alert-success">

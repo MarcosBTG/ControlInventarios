@@ -1,7 +1,18 @@
 
 @extends('layouts.app')
 @section('title', 'S.C.Inventario')
-
+@section('css')
+<style>
+    .rojo{
+        color: #ff0000;
+    }
+    .amarillo{
+        color: #ff9900;
+    }
+    .verde{
+        color: #2ca02c;
+    }
+</style>
 @section('content')
 @if (Session::has('exito'))
 <div class="alert alert-success">
@@ -25,10 +36,8 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    Cat&aacute;logo de productos.
-                    <a href="/products/show" class="btn btn-primary small col-md-offset-6">Ver Historial de productos</a>
-                </div>
+                <div class="panel-heading">Cat&aacute;logo de productos.</div>
+
                 <div class="panel-body">
                     @if (session('status'))
                     <div class="alert alert-success">
@@ -61,8 +70,8 @@
                                                         <th>SKU</th>
                                                         <th>Nombre</th>
                                                         <th>Descripci&oacute;n</th>
-                                                        <th>Contenedor</th>
-                                                        <th>Acciones</th>
+                                                        <th>&Uacute;ltimo Contenedor</th>
+                                                        <th>Estado</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="buscar">
@@ -72,11 +81,14 @@
                                                         <td>{{$product->name}}</td>
                                                         <td>{{$product->description}}</td>
                                                         <td>{{$product->container_id}}</td>
-                                                        <td>
-                                                            <a class="icon" href="/products/{{$product->id}}/edit"><i class="material-icons">mode_edit</i></a>
-                                                            <a class="icon" href="/products/{{$product->id}}/delete" onclick = 'return confirm(" ¿Seguro que quieres eliminar? ")'><i class="material-icons">clear</i></a>
-                                                            <a class="icon" href="/products/{{$product->id}}/submit"><i class="material-icons">local_shipping</i></a>
-                                                        </td>
+                                                        
+                                                        @if($product->status == 0)
+                                                        <td class="rojo"> Eliminado </td>
+                                                        @elseif($product->status == 2)
+                                                            <td class="amarillo"> Enviado </td>
+                                                    @else
+                                                        <td class="verde"> Activo </td>
+                                                    @endif
                                                     </tr>
                                                     @endforeach
                                                 </tbody>
@@ -89,10 +101,6 @@
                                         @endif
 
                                     </div>
-                                    <form method="post" id="delete">
-                                        {{csrf_field()}}
-                                        {{method_field('DELETE')}}
-                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -106,5 +114,4 @@
 @section('javascript')
 <script src="http://code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>
 <script src="{{ asset('js/products/filter_catalogue.js') }}" type="text/javascript"></script>
-<script src="{{ asset('/js/products/products.js')}}" type="text/javascript"></script>
 @endsection

@@ -25,6 +25,7 @@ Route::post('/products/store', 'ProductsController@store');
 Route::get('/products/{id}/edit', 'ProductsController@edit');
 Route::patch('/products/{id}/update', 'ProductsController@update');
 Route::get('/products/{id}/delete', 'ProductsController@delete');
+Route::get('/products/show', 'ProductsController@show')->name('products.show');
 //contenedor
 Route::get('/containers/index', 'ContainersController@index')->name('containers.catalogue');
 Route::get('/containers/{id}/edit', 'ContainersController@edit')->name('containers.edit');

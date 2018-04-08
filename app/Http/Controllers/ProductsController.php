@@ -169,7 +169,14 @@ class ProductsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show() {
-        
+        if (!Auth::guest()) {
+            $query = ProductsModel::paginate();
+            $products = $query;
+
+            return view('products/show', ['products' => $products]);
+        } else {
+            return redirect('/')->with('error', 'No tienes permiso para realizar esta acción. Intenta iniciando sesi&oacute;n');
+        }
     }
 
     /**
