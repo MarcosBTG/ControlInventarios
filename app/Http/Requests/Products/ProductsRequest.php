@@ -22,7 +22,7 @@ class ProductsRequest extends FormRequest {
      */
     public function rules() {
         return[
-            'sku' => 'bail|required|unique:products',
+            'sku' => 'bail|required|min:5|max:100|unique:products',
             'name' => 'bail|required|max:100',
             'description' => 'max:250',
         ];
@@ -30,12 +30,14 @@ class ProductsRequest extends FormRequest {
 
     public function messages() {
         return[
-            'sku.required' => 'El campo es obligatorio',
-            'sku.unique' => 'El SKU ingresado ya existe!',
-            'name.required' => 'El campo es obligatorio',
-            'name.max' => 'El campo nombre solo puede contener hasta 100 caracteres',
+            'sku.required' => ' El campo es obligatorio',
+            'sku.unique' => ' Este c&oacute;digo SKU no puede ser utilizado!',
+            'sku.min' => ' El campo SKU solo puede contener minimo 5 caracteres',
+            'sku.max' => ' El campo SKU solo puede contener m&aacute;ximo hasta 30 caracteres',
+            'name.required' => ' El campo es obligatorio',
+            'name.max' => ' El campo nombre solo puede contener hasta 100 caracteres',
 
-            'description.max' => 'El campo nombre solo puede contener hasta 250 caracteres',
+            'description.max' => ' El campo descripci&oacute; solo puede contener un m&aacute;ximo de hasta 250 caracteres',
         ];
     }
 

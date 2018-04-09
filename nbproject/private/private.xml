@@ -3,11 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/xampp/htdocs/ctrlInventario/app/Http/Controllers/HomeController.php</file>
             <file>file:/C:/xampp/htdocs/ctrlInventario/app/Http/Controllers/ProductsController.php</file>
-            <file>file:/C:/xampp/htdocs/ctrlInventario/resources/views/products/update.blade.php</file>
-            <file>file:/C:/xampp/htdocs/ctrlInventario/resources/views/products/index.blade.php</file>
-            <file>file:/C:/xampp/htdocs/ctrlInventario/app/ProductsModel.php</file>
+            <file>file:/C:/xampp/htdocs/ctrlInventario/resources/views/products/create.blade.php</file>
+            <file>file:/C:/xampp/htdocs/ctrlInventario/resources/views/containers/show.blade.php</file>
+            <file>file:/C:/xampp/htdocs/ctrlInventario/app/Http/Controllers/ContainersController.php</file>
             <file>file:/C:/xampp/htdocs/ctrlInventario/routes/web.php</file>
+            <file>file:/C:/xampp/htdocs/ctrlInventario/app/Http/Requests/Products/ProductsRequest.php</file>
         </group>
     </open-files>
 </project-private>

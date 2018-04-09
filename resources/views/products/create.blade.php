@@ -41,7 +41,7 @@
                         <div class="form-row">
                             <div class="form-group col-md-6 col-md-offset-3">
                                 <label for="description">Descripci&oacute;n:</label>
-                                <textarea class="form-control" name="description" id="description" rows="3" placeholder="Describe el producto" value="{{ old('description')}}"></textarea>
+                                <textarea class="form-control" name="description" id="description" rows="3" maxlength="250" placeholder="Describe el producto" value="{{ old('description')}}"></textarea>
                                 <div class="alert-danger">
                                     @foreach ($errors->get('description') as $error)
                                     {{ $error}}<br>
