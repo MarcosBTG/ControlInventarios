@@ -5,19 +5,19 @@
 @section('content')
 @if (Session::has('exito'))
 <div class="alert alert-success">
-    <strong>{{Session::get('exito')}}</strong>
+    <center><strong>{{Session::get('exito')}}</strong></center>
 </div>
 @endif
 @if (Session::has('actualizado'))
 <div class="alert alert-success">
-    <strong>Whoops!</strong> Al parecer algo cambió.<br><br>
-    <strong>{{Session::get('actualizado')}}</strong>
+    <center><strong>Whoops!</strong> Al parecer algo cambio.<br><br></center>
+    <center><strong>{{Session::get('actualizado')}}</strong></center>
 </div>
 @endif
 @if (Session::has('error'))
 <div class="alert alert-danger">
-    <strong>Whoops!</strong> Al parecer algo está mal.<br><br>
-    <strong>{{Session::get('error')}}</strong>
+    <center><strong>Whoops!</strong> Al parecer algo está mal.<br><br></center>
+    <center><strong>{{Session::get('error')}}</strong></center>
 </div>
 @endif
 

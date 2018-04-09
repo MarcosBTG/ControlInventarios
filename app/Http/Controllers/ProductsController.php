@@ -221,16 +221,19 @@ class ProductsController extends Controller {
             return redirect('/')->with('error', 'No tienes permiso para realizar esta acción. Intenta iniciando sesi&oacute;n');
         }
     }
-
+//para enviar el producto
     public function updateState($id) {
         if (!Auth::guest()) {
-            $producto = ProductsModel::findOrFail($id);
-            $producto->status = 2;
-            $producto->save();
+            try {
+                $producto = ProductsModel::findOrFail($id);
+                $producto->status = 2;
+                $producto->save();
 
-            $container_id = ProductsModel::select('container_id')->where('id', '=', $id)->first();
-            $this->UpdateContainer($container_id->container_id);
-
+                $container_id = ProductsModel::select('container_id')->where('id', '=', $id)->first();
+                $this->UpdateContainer($container_id->container_id);
+            } catch (ModelNotFoundException $e) {
+                return redirect('/products/index')->with('error', 'No se encontro el producto seleccionado.');
+            }            
             return redirect()->action('ProductsController@index')->with('actualizado', "Se ha realizado el envio del producto con éxito.");
         } else {
             return redirect('/')->with('error', 'No tienes permiso para realizar esta acción. Intenta iniciando sesi&oacute;n');
