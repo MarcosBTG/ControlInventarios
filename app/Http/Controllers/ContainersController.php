@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Requests\Containers\ContainersRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -10,15 +11,15 @@ use App\DescriptionContainerModel;
 use App\ContainerModel;
 use App\UbicationModel;
 
-class ContainersController extends Controller
-{
+class ContainersController extends Controller {
+
     public function index() {
         //Auth::check()
         if (!Auth::guest()) {
             $query = ContainerModel::where('status', '<', '3');
             $containers = $query->orderBy('id', 'desc')->paginate(5);
 
-            return view('containers/index',['containers' => $containers]);
+            return view('containers/index', ['containers' => $containers]);
         } else {
             return redirect('/')->with('error', 'No tienes permiso para realizar esta acción. Intenta iniciando sesi&oacute;n');
         }
@@ -51,11 +52,14 @@ class ContainersController extends Controller
      */
     public function show($id) {
         if (!Auth::guest()) {
-            $query = DescriptionContainerModel::select('container.id as container_id','container.type as type','container.capacity as capacity','container.ubication_id as ubication_id','description_container.origin as origin','description_container.destinity as destinity', DB::raw('concat(users.name, " ", users.surnames) as name'))
-                    ->join('container', 'description_container.container_id', '=', 'container.id')
-                    ->join('users', 'description_container.user_id', '=', 'users.id')
-                    ->where('container.id','=',$id);
-            
+            try {
+                $query = DescriptionContainerModel::select('container.id as container_id', 'container.type as type', 'container.capacity as capacity', 'container.ubication_id as ubication_id', 'description_container.origin as origin', 'description_container.destinity as destinity', DB::raw('concat(users.name, " ", users.surnames) as name'))
+                        ->join('container', 'description_container.container_id', '=', 'container.id')
+                        ->join('users', 'description_container.user_id', '=', 'users.id')
+                        ->where('container.id', '=', $id);
+            } catch (ModelNotFoundException $e) {
+                return redirect('/containers/index')->with('error', 'No se encontro el contenedor seleccionado.');
+            }
             $containers = $query->paginate(15);
             return view('containers.show', ['containers' => $containers]);
         } else {
@@ -71,7 +75,11 @@ class ContainersController extends Controller
      */
     public function edit($id) {
         if (!Auth::guest()) {
-            $container = ContainerModel::findOrFail($id);
+            try {
+                $container = ContainerModel::findOrFail($id);
+            } catch (ModelNotFoundException $e) {
+                return redirect('/containers/index')->with('error', 'No se encontro el contenedor seleccionado.');
+            }
             $ubications = UbicationModel::all();
             //die(json_encode($container));
             return view('containers.update', ['container' => $container, 'ubications' => $ubications]);
@@ -92,10 +100,10 @@ class ContainersController extends Controller
             $contenedor = ContainerModel::findOrFail($id);
             $contenedor->ubication_id = $request->select_ubication;
             $contenedor->save();
-            
+
             //die(json_encode($new));
-            $update_des = DescriptionContainerModel::select('id','destinity')->where('container_id', '=', $id)->first();
-            
+            $update_des = DescriptionContainerModel::select('id', 'destinity')->where('container_id', '=', $id)->first();
+
             $description = DescriptionContainerModel::findOrFail($update_des->id);
             $description->origin = $update_des->destinity;
             $description->destinity = $request->select_ubication;
@@ -106,13 +114,13 @@ class ContainersController extends Controller
             return redirect('/')->with('error', 'No tienes permiso para realizar esta acción. Intenta iniciando sesi&oacute;n');
         }
     }
-    
+
     public function UpdateDescription($id, $contenedor, $ubication) {
-            $description = DescriptionContainerModel::findOrFail($id);
-            $description->origin = $contenedor->ubication_id;
-            $description->destinity = $ubication;
-            $description->user_id = Auth::user()->id;
-            $description->save();
+        $description = DescriptionContainerModel::findOrFail($id);
+        $description->origin = $contenedor->ubication_id;
+        $description->destinity = $ubication;
+        $description->user_id = Auth::user()->id;
+        $description->save();
     }
 
     /**
@@ -124,4 +132,5 @@ class ContainersController extends Controller
     public function destroy($id) {
         
     }
+
 }

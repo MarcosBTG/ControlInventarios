@@ -29,7 +29,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Cat&aacute;logo de contenedores.</div>
+                <div class="panel-heading">Caracteristicas del contenedor.</div>
 
                 <div class="panel-body">
                     @if (session('status'))
@@ -114,7 +114,7 @@
                                             </tbody>
                                             @else
                                             <div class="alert alert-danger">
-                                                <p>Al parecer no se han registrado contenedores. Los contenedores se crean al agregar productos.</p>
+                                                <p>Al parecer no se ha registrado este contenedor. Los contenedores se crean al agregar productos.</p>
                                             </div>
                                         </table>
                                     </div>

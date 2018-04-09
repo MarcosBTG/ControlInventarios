@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Products\ProductsRequest;
 use App\Http\Requests\Products\EditProductRequest;
@@ -42,18 +43,18 @@ class ProductsController extends Controller {
 
     public function fill_location() {
         $check = UbicationModel::all();
-        if (count($check)<=0) {
-            for($i=1; $i<=3; $i++){
+        if (count($check) <= 0) {
+            for ($i = 1; $i <= 3; $i++) {
                 $ubicacion = new UbicationModel();
                 $ubicacion->user_id = Auth::user()->id;
                 $ubicacion->save();
             }
         }
     }
-    
+
     public function checkContainer() {
         $check = ContainerModel::all();
-        if (count($check)<=0) {
+        if (count($check) <= 0) {
             $this->createContainer();
         }
     }
@@ -187,8 +188,11 @@ class ProductsController extends Controller {
      */
     public function edit($id) {
         if (!Auth::guest()) {
-            $producto = ProductsModel::findOrFail($id);
-            
+            try {
+                $producto = ProductsModel::findOrFail($id);
+            } catch (ModelNotFoundException $e) {
+                return redirect('/products/index')->with('error', 'No se encontro el producto seleccionado.');
+            }
             return view('products.update', ['product' => $producto]);
         } else {
             return redirect('/')->with('error', 'No tienes permiso para realizar esta acción. Intenta iniciando sesi&oacute;n');
